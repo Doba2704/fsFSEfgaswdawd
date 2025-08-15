@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <title>GiftNFT — Home</title>
+  <meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link rel="icon" href="/assets/logo.svg" />
+<link rel="stylesheet" href="/css/styles.css" />
+<script defer src="/socket.io/socket.io.js"></script>
+<script>
+  window.API_ORIGIN = window.location.origin;
+</script>
+
+  <script defer src="/js/app.js"></script>
+</head>
+<body>
+  <header class="topbar">
+  <a class="brand" href="/index.html">
+    <img src="/assets/logo.svg" alt="Logo" width="28" height="28" />
+    <span>GiftNFT</span>
+  </a>
+  <nav class="nav">
+    <a href="/market.html">Market</a>
+    <a href="/profile.html">Profile</a>
+      <a href="/payments.html">Payments</a>
+    <a href="/admin.html" class="admin-link">Admin</a>
+  </nav>
+  <div class="auth-block">
+    <span id="meBadge" class="hidden"></span>
+    <button id="loginBtn" class="btn" onclick="location.href='/auth.html'">Sign in</button>
+    <button id="logoutBtn" class="btn btn-ghost hidden">Sign out</button>
+  </div>
+</header>
+
+  <main class="container">
+    <section class="hero card">
+      <h1>Send beautiful on-chain gifts</h1>
+      <p>Create, collect, and gift NFTs that feel like Telegram gifts — but they are yours.</p>
+      <div class="row gap">
+        <a class="btn" href="/market.html">Go to Market</a>
+        <a class="btn btn-ghost" href="/auth.html">Sign in / Register</a>
+      </div>
+    </section>
+
+    <section class="grid3">
+      <div class="card">
+        <h3>Curated Collections</h3>
+        <p>Browse themed drops and seasonal gifts with transparent pricing.</p>
+      </div>
+      <div class="card">
+        <h3>Per-NFT Upgrades</h3>
+        <p>Upgrades apply to a single NFT by ID — never to the whole collection.</p>
+      </div>
+      <div class="card">
+        <h3>Gifting Done Right</h3>
+        <p>Send a gift to any user by ID. Price charged equals the current market price — not 1.</p>
+      </div>
+    </section>
+  </main>
+  <footer class="footer">
+  <p>© <span id="year"></span> GiftNFT. All rights reserved.</p>
+</footer>
+<script>
+  document.getElementById('year').textContent = new Date().getFullYear();
+</script>
+
+</body>
+</html>

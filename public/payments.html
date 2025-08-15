@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <title>GiftNFT — Payments</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="icon" href="/assets/logo.svg" />
+  <link rel="stylesheet" href="/css/styles.css" />
+  <script defer src="/socket.io/socket.io.js"></script>
+  <script defer src="/js/app.js"></script>
+  <script defer src="/js/payments.js"></script>
+</head>
+<body>
+  <header class="topbar">
+    <a class="brand" href="/index.html">
+      <img src="/assets/logo.svg" alt="Logo" width="28" height="28" />
+      <span>GiftNFT</span>
+    </a>
+    <nav class="nav">
+      <a href="/market.html">Market</a>
+      <a href="/profile.html">Profile</a>
+      <a href="/payments.html">Payments</a>
+      <a href="/admin.html" class="admin-link">Admin</a>
+    </nav>
+    <div class="auth-block">
+      <span id="meBadge" class="hidden"></span>
+      <button id="loginBtn" class="btn" onclick="location.href='/auth.html'">Sign in</button>
+      <button id="logoutBtn" class="btn btn-ghost hidden">Sign out</button>
+      <button id="bellBtn" class="btn btn-ghost" title="Notifications">🔔</button>
+    </div>
+  </header>
+  <main class="container">
+    <section class="card">
+      <h1>Payments</h1>
+      <p class="muted">Rate: <span id="rate"></span> (1 TON = <span id="rateUsd"></span> USD)</p>
+      <div class="grid3">
+        <div class="card">
+          <h3>Deposit</h3>
+          <div class="field">
+            <label>Amount (TON)</label>
+            <input id="depAmt" class="input" placeholder="e.g. 100" />
+          </div>
+          <div class="muted">≈ <span id="depUsd">0</span> USD</div>
+          <button class="btn" id="depBtn">Request deposit</button>
+        </div>
+        <div class="card">
+          <h3>Withdraw</h3>
+          <div class="field"><label>TON address</label><input id="wdAddr" class="input" placeholder="ton:// or EQ..." /></div>
+          <div class="field"><label>Amount (TON)</label><input id="wdAmt" class="input" placeholder="e.g. 50" /></div>
+          <div class="muted">≈ <span id="wdUsd">0</span> USD</div>
+          <button class="btn btn-ghost" id="wdBtn">Request withdraw</button>
+        </div>
+        <div class="card">
+          <h3>My Balance</h3>
+          <div id="balanceTon" class="price">0 TON</div>
+          <div class="muted">≈ <span id="balanceUsd">0</span> USD</div>
+        </div>
+      </div>
+    </section>
+    <section class="card">
+      <h2>My Payments</h2>
+      <table class="table" id="payTable">
+        <thead><tr><th>ID</th><th>Kind</th><th>Amount (TON)</th><th>USD</th><th>Status</th><th>Created</th></tr></thead>
+        <tbody id="payBody"></tbody>
+      </table>
+    </section>
+  </main>
+  <footer class="footer">
+    <p>© <span id="year"></span> GiftNFT. All rights reserved.</p>
+  </footer>
+  <script>document.getElementById('year').textContent = new Date().getFullYear();</script>
+</body>
+</html>

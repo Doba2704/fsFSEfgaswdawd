@@ -1,0 +1,15 @@
+# node
+node_modules/
+npm-debug.log*
+.DS_Store
+
+# env
+.env
+
+# local DB (keep folder, ignore file)
+data/db.json
+
+# builds/IDE
+dist/
+.build/
+.vscode/

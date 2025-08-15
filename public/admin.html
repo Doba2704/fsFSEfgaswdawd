@@ -1,0 +1,149 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <title>GiftNFT — Admin</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="icon" href="/assets/logo.svg" />
+  <link rel="stylesheet" href="/css/styles.css" />
+  <script defer src="/socket.io/socket.io.js"></script>
+  <script defer src="/js/app.js"></script>
+  <script defer src="/js/admin.js"></script>
+</head>
+<body>
+  <header class="topbar">
+    <a class="brand" href="/index.html">
+      <img src="/assets/logo.svg" alt="Logo" width="28" height="28" />
+      <span>GiftNFT</span>
+    </a>
+    <nav class="nav">
+      <a href="/market.html">Market</a>
+      <a href="/profile.html">Profile</a>
+      <a href="/payments.html">Payments</a>
+      <a href="/admin.html" class="admin-link">Admin</a>
+    </nav>
+    <div class="auth-block">
+      <span id="meBadge" class="hidden"></span>
+      <button id="loginBtn" class="btn" onclick="location.href='/auth.html'">Sign in</button>
+      <button id="logoutBtn" class="btn btn-ghost hidden">Sign out</button>
+          <button id="bellBtn" class="btn btn-ghost" title="Notifications">🔔</button>
+    </div>
+  </header>
+  <main class="container">
+    <section class="card">
+      <h1>Admin Panel</h1>
+      <p class="muted">Complete controls: users, items, balances, gifts, transfers, burn, history, DB export/import.</p>
+      <div class="tabs" id="tabs">
+        <button class="tab active" data-tab="overview">Overview</button>
+        <button class="tab" data-tab="users">Users</button>
+        <button class="tab" data-tab="items">Items</button>
+        <button class="tab" data-tab="ops">Operations</button>
+        <button class="tab" data-tab="history">History</button>
+        <button class="tab" data-tab="database">Database</button>
+        <button class="tab" data-tab="payments">Payments</button>
+      </div>
+      <div id="overview" class="tabpane active"></div>
+      <div id="users" class="tabpane">
+        <div class="row gap">
+          <input class="input" id="newUserName" placeholder="Name" />
+          <input class="input" id="newUserEmail" placeholder="Email" />
+          <input class="input" id="newUserPass" placeholder="Password" />
+          <button class="btn" id="createUserBtn">Create user</button>
+        </div>
+        <div class="row gap" style="margin-top:10px">
+          <input class="input" id="balUserId" placeholder="User ID" />
+          <input class="input" id="balDelta" placeholder="Δ balance (e.g. 100 or -50)" />
+          <button class="btn btn-ghost" id="balApplyBtn">Apply balance</button>
+          <input class="input" id="banUserId" placeholder="User ID" />
+          <select class="input" id="banState">
+            <option value="true">Ban</option>
+            <option value="false">Unban</option>
+          </select>
+          <button class="btn btn-ghost" id="banApplyBtn">Apply</button>
+        </div>
+        <h3 style="margin-top:16px">Users</h3>
+        <table class="table" id="usersTable">
+          <thead><tr><th>User ID</th><th>Name</th><th>Email</th><th>Role</th><th>Balance</th><th>Gifts</th><th>Banned</th></tr></thead>
+          <tbody id="usersBody"></tbody>
+        </table>
+      </div>
+
+      <div id="items" class="tabpane">
+        <div class="row gap">
+          <input class="input" id="itemName" placeholder="Name" />
+          <input class="input" id="itemPrice" placeholder="Price (TON)" />
+          <input class="input" id="itemImg" placeholder="Image URL (optional)" />
+          <input class="input" id="itemCollection" placeholder="Collection" />
+          <button class="btn" id="createItemBtn">Create item</button>
+        </div>
+        <div class="row gap" style="margin-top:10px">
+          <input class="input" id="updItemId" placeholder="ID" />
+          <input class="input" id="updPrice" placeholder="New price" />
+          <button class="btn btn-ghost" id="updApplyBtn">Update price</button>
+          <input class="input" id="delItemId" placeholder="ID to delete" />
+          <button class="btn btn-ghost" id="delApplyBtn">Delete</button>
+          <button class="btn btn-ghost" id="clearItemsBtn">Clear Market</button>
+        </div>
+        <h3 style="margin-top:16px">Current Items</h3>
+        <table class="table" id="itemsTable">
+          <thead><tr><th>ID</th><th>Name</th><th>Price</th><th>Owner</th><th>Collection</th><th>Rating</th></tr></thead>
+          <tbody id="itemsBody"></tbody>
+        </table>
+      </div>
+
+      <div id="ops" class="tabpane">
+        <div class="row gap">
+          <input class="input" id="giftUserId" placeholder="User ID to gift" />
+          <input class="input" id="giftItemId" placeholder="NFT ID to send" />
+          <button class="btn" id="giftSendBtn">Admin Gift (charge recipient)</button>
+        </div>
+        <div class="row gap" style="margin-top:10px">
+          <input class="input" id="trItemId" placeholder="NFT ID" />
+          <input class="input" id="trToUserId" placeholder="To User ID" />
+          <button class="btn btn-ghost" id="trApplyBtn">Force transfer</button>
+          <input class="input" id="burnItemId" placeholder="NFT ID to burn" />
+          <button class="btn btn-ghost" id="burnApplyBtn">Burn</button>
+        </div>
+      </div>
+
+      <div id="history" class="tabpane">
+        <div class="row gap">
+          <input class="input" id="histUserId" placeholder="Filter by User ID (optional)" />
+          <button class="btn" id="histLoadBtn">Load</button>
+        </div>
+        <ul id="historyList" class="list" style="margin-top:10px"></ul>
+      </div>
+
+      <div id="database" class="tabpane">
+        <div class="row gap">
+          <button class="btn" id="dbExportBtn">Export DB (download JSON)</button>
+        </div>
+        <div class="field" style="margin-top:10px">
+          <label>Import DB (paste JSON):</label>
+          <textarea id="dbImportText" class="input" style="min-height:140px"></textarea>
+        </div>
+        <button class="btn btn-ghost" id="dbImportBtn">Import</button>
+      </div>
+      <div id="payments" class="tabpane">
+        <div class="row gap">
+          <select id="payFilter" class="input">
+            <option value="">All</option>
+            <option value="pending">Pending</option>
+            <option value="approved">Approved</option>
+            <option value="rejected">Rejected</option>
+          </select>
+          <button class="btn" id="payReloadBtn">Reload</button>
+        </div>
+        <table class="table" id="payTableAdmin" style="margin-top:10px">
+          <thead><tr><th>ID</th><th>User</th><th>Kind</th><th>TON</th><th>USD</th><th>Address</th><th>Status</th><th>Actions</th><th>TS</th></tr></thead>
+          <tbody id="payBodyAdmin"></tbody>
+        </table>
+      </div>
+    </section>
+  </main>
+  <footer class="footer">
+    <p>© <span id="year"></span> GiftNFT. All rights reserved.</p>
+  </footer>
+  <script>document.getElementById('year').textContent = new Date().getFullYear();</script>
+</body>
+</html>

@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <title>GiftNFT — Profile</title>
+  <meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link rel="icon" href="/assets/logo.svg" />
+<link rel="stylesheet" href="/css/styles.css" />
+<script defer src="/socket.io/socket.io.js"></script>
+<script>
+  window.API_ORIGIN = window.location.origin;
+</script>
+
+  <script defer src="/js/app.js"></script>
+  <script defer src="/js/profile.js"></script>
+</head>
+<body>
+  <header class="topbar">
+  <a class="brand" href="/index.html">
+    <img src="/assets/logo.svg" alt="Logo" width="28" height="28" />
+    <span>GiftNFT</span>
+  </a>
+  <nav class="nav">
+    <a href="/market.html">Market</a>
+    <a href="/profile.html">Profile</a>
+      <a href="/payments.html">Payments</a>
+    <a href="/admin.html" class="admin-link">Admin</a>
+  </nav>
+  <div class="auth-block">
+    <span id="meBadge" class="hidden"></span>
+    <button id="loginBtn" class="btn" onclick="location.href='/auth.html'">Sign in</button>
+    <button id="logoutBtn" class="btn btn-ghost hidden">Sign out</button>
+  </div>
+</header>
+
+  <main class="container">
+    <section class="card">
+      <h1>Your Profile</h1>
+      <div id="profileInfo"></div>
+    </section>
+    <section class="card">
+      <h2>Owned NFTs</h2>
+      <div id="owned" class="grid4"></div>
+    </section>
+    <section class="card">
+      <h2>Activity</h2>
+      <ul id="history" class="list"></ul>
+    </section>
+  </main>
+  <footer class="footer">
+  <p>© <span id="year"></span> GiftNFT. All rights reserved.</p>
+</footer>
+<script>
+  document.getElementById('year').textContent = new Date().getFullYear();
+</script>
+
+</body>
+</html>
